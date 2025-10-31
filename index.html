@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التلوث البلاستيكي - Plastic Pollution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --danger: #e76f51;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Page container for multi-page functionality */
+        .page {
+            display: none;
+            flex: 1;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--secondary);
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: right 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #f4a261;
+        }
+
+        .btn:hover::before {
+            right: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        /* Facts Section */
+        .facts {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .fact-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .fact-item i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .fact-item h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
+        }
+
+        /* Interactive Elements */
+        .interactive-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .interactive-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interactive-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .interactive-item i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+
+        .quiz-option.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Game Section */
+        .game-section {
+            background: linear-gradient(135deg, var(--secondary), #1a3c4d);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 15px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .game-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 10px;
+            background: #000;
+            margin: 1.5rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-description {
+            text-align: right;
+            margin-top: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .game-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .game-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .game-feature i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* Resources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .resource-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .resource-item h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .resource-item ul {
+            list-style-type: none;
+            padding-right: 1rem;
+        }
+
+        .resource-item li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .resource-item li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: 0.5em;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .game-frame {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-frame {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" onclick="showPage('home')">
+                    <i class="fas fa-earth-americas"></i>
+                    <h1>التلوث البلاستيكي</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a class="nav-link active" onclick="showPage('home')">الرئيسية</a></li>
+                        <li><a class="nav-link" onclick="showPage('about')">عن التلوث</a></li>
+                        <li><a class="nav-link" onclick="showPage('interactive')">التفاعل</a></li>
+                        <li><a class="nav-link" onclick="showPage('resources')">المصادر</a></li>
+                        <li><a class="nav-link" onclick="showPage('signup')">إنشاء حساب</a></li>
+                        <li><a class="nav-link" onclick="showPage('login')">تسجيل الدخول</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h2>حارب التلوث البلاستيكي من أجل كوكب أنظف</h2>
+                <p>البلاستيك يغزو محيطاتنا ويضر بالحياة البحرية ويهدد صحتنا. انضم إلى الحركة العالمية للحد من التلوث البلاستيكي.</p>
+                <button class="btn btn-primary" onclick="showPage('about')">اكتشف المزيد</button>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-preview">
+            <div class="container">
+                <h2 class="section-title">مشكلة البلاستيك</h2>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Plastic in ocean">
+                        </div>
+                        <div class="card-content">
+                            <h3>البلاستيك في المحيطات</h3>
+                            <p>يصل أكثر من 8 ملايين طن من البلاستيك إلى محيطاتنا كل عام، مما يهدد الحياة البحرية والنظم البيئية.</p>
+                            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" alt="Microplastics">
+                        </div>
+                        <div class="card-content">
+                            <h3>البلاستيك الدقيق</h3>
+                            <p>البلاستيك الدقيق موجود في مياه الشرب والهواء والغذاء، ويمكن أن يدخل أجسامنا ويسبب مشاكل صحية.</p>
+                            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Plastic waste">
+                        </div>
+                        <div class="card-content">
+                            <h3>النفايات البلاستيكية</h3>
+                            <p>يتم إنتاج أكثر من 300 مليون طن من النفايات البلاستيكية كل عام، ولا يتم إعادة تدوير سوى 9% منها.</p>
+                            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facts Section -->
+        <section class="facts">
+            <div class="container">
+                <h2 class="section-title" style="color: white;">إحصائيات صادمة</h2>
+                <div class="cards">
+                    <div class="fact-item">
+                        <i class="fas fa-wine-bottle"></i>
+                        <h3>مليون</h3>
+                        <p>زجاجة بلاستيكية تُباع كل دقيقة حول العالم</p>
+                    </div>
+                    <div class="fact-item">
+                        <i class="fas fa-fish"></i>
+                        <h3>100,000</h3>
+                        <p>حيوان بحري يموت سنوياً بسبب البلاستيك</p>
+                    </div>
+                    <div class="fact-item">
+                        <i class="fas fa-recycle"></i>
+                        <h3>500</h3>
+                        <p>عام هي المدة التي يحتاجها البلاستيك للتحلل</p>
+                    </div>
+                    <div class="fact-item">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>5 تريليون</h3>
+                        <p>كيس بلاستيكي يستخدم سنوياً حول العالم</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section -->
+        <section id="solutions">
+            <div class="container">
+                <h2 class="section-title">الحلول الممكنة</h2>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3><i class="fas fa-recycle" style="color: var(--primary); margin-left: 10px;"></i> إعادة التدوير</h3>
+                            <p>تحسين أنظمة إعادة التدوير وتشجيع الاستهلاك المسؤول للمواد البلاستيكية.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3><i class="fas fa-ban" style="color: var(--danger); margin-left: 10px;"></i> تقليل الاستخدام</h3>
+                            <p>تقليل الاعتماد على المنتجات البلاستيكية ذات الاستخدام الواحد.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3><i class="fas fa-leaf" style="color: var(--primary); margin-left: 10px;"></i> بدائل صديقة للبيئة</h3>
+                            <p>استخدام بدائل قابلة للتحلل أو قابلة لإعادة الاستخدام بدلاً من البلاستيك.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" onclick="showPage('signup')">انضم إلى مبادرتنا</button>
+                    <button class="btn btn-secondary" onclick="showPage('interactive')">شارك في الحملات</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1618477388957-7a89af6e8e0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+            <div class="container">
+                <h2>عن التلوث البلاستيكي</h2>
+                <p>تعرف على الأسباب والآثار والحلول لأزمة التلوث البلاستيكي العالمية</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>ما هو التلوث البلاستيكي؟</h3>
+                            <p>التلوث البلاستيكي هو تراكم المنتجات البلاستيكية في البيئة التي تؤثر سلبًا على الحياة البرية والموائل البرية والبشر. أصبح البلاستيك مادة شائعة الاستخدام منذ القرن العشرين، ومقاومته للتدهور تعني أن آثاره البيئية قد تستمر لقرون.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>الأسباب الرئيسية</h3>
+                            <ul>
+                                <li>الاستخدام المفرط للمواد البلاستيكية ذات الاستخدام الواحد</li>
+                                <li>أنظمة إدارة النفايات غير الفعالة</li>
+                                <li>الإنتاج الضخم للبلاستيك دون اعتبار للتخلص منه</li>
+                                <li>السلوك الاستهلاكي غير المسؤول</li>
+                                <li>عدم كفاية إعادة التدوير</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>الآثار على البيئة</h3>
+                            <ul>
+                                <li>تلوث المحيطات والأنهار والبحيرات</li>
+                                <li>وفاة الكائنات البحرية بسبب ابتلاع البلاستيك أو التشابك فيه</li>
+                                <li>تدمير النظم البيئية البحرية</li>
+                                <li>تلوث التربة والموائل البرية</li>
+                                <li>إطلاق مواد كيميائية سامة أثناء تحلل البلاستيك</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 class="section-title">البلاستيك في السلسلة الغذائية</h3>
+                    <div class="card">
+                        <div class="card-content">
+                            <p>يدخل البلاستيك الدقيق السلسلة الغذائية من خلال الكائنات البحرية التي تبتلعه. عندما تأكل الأسماك والمحار البلاستيك الدقيق، يمكن أن تنتقل هذه الجسيمات إلى البشر عند استهلاك هذه المأكولات البحرية. هذا يشكل خطرًا محتملاً على صحة الإنسان.</p>
+                            <div style="text-align: center; margin-top: 2rem;">
+                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80" alt="Microplastics" style="max-width: 100%; border-radius: 8px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" onclick="showPage('interactive')">جرب أدواتنا التفاعلية</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Interactive Page -->
+    <div id="interactive" class="page">
+        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+            <div class="container">
+                <h2>التفاعل مع المشكلة</h2>
+                <p>استكشف أدوات تفاعلية لمعرفة المزيد عن التلوث البلاستيكي وكيف يمكنك المساعدة</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2 class="section-title">أدوات تفاعلية</h2>
+                
+                <div class="interactive-container">
+                    <div class="interactive-item" onclick="startCalculator()">
+                        <i class="fas fa-calculator"></i>
+                        <h3>حاسبة البصمة البلاستيكية</h3>
+                        <p>احسب كمية البلاستيك التي تستخدمها وتعلم كيفية تقليلها</p>
+                    </div>
+                    <div class="interactive-item" onclick="startQuiz()">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>اختبار المعرفة</h3>
+                        <p>اختبر معلوماتك حول التلوث البلاستيكي وتأثيره</p>
+                    </div>
+                    <div class="interactive-item" onclick="showImpact()">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>تأثير البلاستيك</h3>
+                        <p>شاهد كيف يؤثر البلاستيك على البيئة بمرور الوقت</p>
+                    </div>
+                </div>
+
+                <!-- Plastic Footprint Calculator -->
+                <div id="calculator" class="quiz-container" style="display: none;">
+                    <h3>حاسبة البصمة البلاستيكية</h3>
+                    <div class="form-group">
+                        <label>كم عدد زجاجات المياه البلاستيكية التي تستخدمها أسبوعياً؟</label>
+                        <input type="number" id="bottles" class="form-control" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>كم عدد الأكياس البلاستيكية التي تستخدمها أسبوعياً؟</label>
+                        <input type="number" id="bags" class="form-control" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>كم عدد أدوات المائدة البلاستيكية التي تستخدمها أسبوعياً؟</label>
+                        <input type="number" id="utensils" class="form-control" min="0" value="0">
+                    </div>
+                    <button class="btn btn-primary" onclick="calculateFootprint()">احسب بصمتك</button>
+                    <div id="calculator-result" style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; display: none;"></div>
+                </div>
+
+                <!-- Quiz -->
+                <div id="quiz" class="quiz-container" style="display: none;">
+                    <h3>اختبار المعرفة حول التلوث البلاستيكي</h3>
+                    <div id="quiz-questions">
+                        <div class="quiz-question" id="q1">
+                            <p>كم من الوقت يستغرق تحلل كيس بلاستيكي في البيئة؟</p>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(this)">أقل من سنة</div>
+                                <div class="quiz-option" onclick="selectOption(this)">من 10 إلى 20 سنة</div>
+                                <div class="quiz-option" onclick="selectOption(this)">من 100 إلى 500 سنة</div>
+                                <div class="quiz-option" onclick="selectOption(this)">أكثر من 1000 سنة</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="nextQuestion()" style="margin-top: 1.5rem;">السؤال التالي</button>
+                    <div id="quiz-result" style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; display: none;"></div>
+                </div>
+
+                <!-- Impact Visualization -->
+                <div id="impact" class="quiz-container" style="display: none;">
+                    <h3>تأثير البلاستيك على البيئة</h3>
+                    <p>شاهد كيف يتراكم البلاستيك في البيئة بمرور الوقت:</p>
+                    <div style="height: 300px; background: #e9ecef; border-radius: 4px; position: relative; overflow: hidden; margin-top: 1rem;">
+                        <div id="ocean-visualization" style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, #1e90ff, #00bfff); height: 70%;"></div>
+                        <div id="plastic-visualization" style="position: absolute; bottom: 0; width: 100%;"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="btn btn-secondary" onclick="simulateYears(1)">+1 سنة</button>
+                        <button class="btn btn-secondary" onclick="simulateYears(5)">+5 سنوات</button>
+                        <button class="btn btn-secondary" onclick="simulateYears(10)">+10 سنوات</button>
+                        <button class="btn btn-danger" onclick="resetSimulation()">إعادة التعيين</button>
+                    </div>
+                    <div id="impact-stats" style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Game Section -->
+        <section class="game-section">
+            <div class="container">
+                <div class="game-container">
+                    <h2 class="section-title" style="color: white;">لعبة الروبوت النظيف</h2>
+                    <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">استمتع بلعبة تفاعلية حيث تساعد الروبوت في تنظيف الكوكب من النفايات البلاستيكية</p>
+                    
+                    <div class="game-content">
+                        <h3 style="margin-bottom: 1rem;">العب الآن!</h3>
+                        <p>انقر على الزر أدناه لبدء اللعبة في نافذة جديدة</p>
+                        
+                        <div style="margin: 2rem 0;">
+                            <button class="btn btn-primary" onclick="openGame()" style="font-size: 1.2rem; padding: 1rem 2rem;">
+                                <i class="fas fa-gamepad" style="margin-left: 10px;"></i>
+                                ابدأ اللعبة
+                            </button>
+                        </div>
+                        
+                        <div class="game-features">
+                            <div class="game-feature">
+                                <i class="fas fa-robot"></i>
+                                <h4>روبوت ذكي</h4>
+                                <p>تحكم بروبوت متطور مهمته تنظيف البيئة</p>
+                            </div>
+                            <div class="game-feature">
+                                <i class="fas fa-recycle"></i>
+                                <h4>فرز النفايات</h4>
+                                <p>تعلم كيفية فرز النفايات البلاستيكية بشكل صحيح</p>
+                            </div>
+                            <div class="game-feature">
+                                <i class="fas fa-medal"></i>
+                                <h4>تحديات ممتعة</h4>
+                                <p>تخطى المستويات وارفع مهاراتك في إعادة التدوير</p>
+                            </div>
+                        </div>
+                        
+                        <div class="game-description">
+                            <h4>عن اللعبة:</h4>
+                            <p>في هذه اللعبة التفاعلية، ستلعب دور روبوت متطور مهمته تنظيف الكوكب من النفايات البلاستيكية. ستتعلم خلال اللعبة كيفية فرز أنواع البلاستيك المختلفة وإعادة تدويرها بشكل صحيح. كل مستوى يمثل تحدياً جديداً حيث تزداد صعوبة المهمة، مما يساعدك على فهم أهمية إعادة التدوير في حماية بيئتنا.</p>
+                            <p>اللعبة مصممة لتكون ممتعة وتعليمية في نفس الوقت، حيث تقدم معلومات قيمة عن التلوث البلاستيكي بينما تستمتع بتجربة اللعب.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Resources Page -->
+    <div id="resources" class="page">
+        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1589656384667-54e2ce6ef01a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');">
+            <div class="container">
+                <h2>المصادر والتعليم</h2>
+                <p>اكتشف موارد تعليمية ومبادرات ومنظمات تعمل على مكافحة التلوث البلاستيكي</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2 class="section-title">مصادر للمعرفة والعمل</h2>
+                
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <h3>تقارير ودراسات</h3>
+                        <ul>
+                            <li>تقرير الأمم المتحدة عن التلوث البلاستيكي في المحيطات</li>
+                            <li>دراسة منظمة الصحة العالمية عن البلاستيك الدقيق في مياه الشرب</li>
+                            <li>أبحاث حول تأثير البلاستيك على الحياة البحرية</li>
+                            <li>تحليلات اقتصادية لتكلفة التلوث البلاستيكي</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <h3>منظمات عالمية</h3>
+                        <ul>
+                            <li>برنامج الأمم المتحدة للبيئة (UNEP)</li>
+                            <li>منظمة السلام الأخضر (Greenpeace)</li>
+                            <li>مؤسسة إلين ماك آرثر (Ellen MacArthur Foundation)</li>
+                            <li>منظمة المحيطات (Oceana)</li>
+                            <li>الاتحاد الدولي لحفظ الطبيعة (IUCN)</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <h3>مبادرات محلية</h3>
+                        <ul>
+                            <li>حملة "الرياض بلا بلاستيك"</li>
+                            <li>مبادرة "شواطئنا نظيفة" في الإمارات</li>
+                            <li>"بدون بلاستيك" في مصر</li>
+                            <li>"بيئتنا مسؤوليتنا" في المغرب</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <h3>أدوات عملية</h3>
+                        <ul>
+                            <li>دليل تقليل الاستهلاك البلاستيكي</li>
+                            <li>خريطة مراكز إعادة التدوير</li>
+                            <li>قائمة بالبدائل الصديقة للبيئة</li>
+                            <li>نماذج عرائض للمطالبة بتغيير السياسات</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <h3>مصادر تعليمية</h3>
+                        <ul>
+                            <li>فيديوهات توعوية عن البلاستيك</li>
+                            <li>خطط دروس للمعلمين</li>
+                            <li>أنشطة تفاعلية للأطفال</li>
+                            <li>كتب ومجلات متخصصة</li>
+                        </ul>
+                    </div>
+                    <div class="resource-item">
+                        <h3>أخبار ومستجدات</h3>
+                        <ul>
+                            <li>آخر الأبحاث العلمية</li>
+                            <li>تطورات السياسات العالمية</li>
+                            <li>قصص نجاح في الحد من البلاستيك</li>
+                            <li>تقنيات جديدة لإعادة التدوير</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-primary" onclick="showPage('signup')">انضم إلى نشرتنا الإخبارية</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup" class="page">
+        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');">
+            <div class="container">
+                <h2>انضم إلى مبادرتنا</h2>
+                <p>سجل معنا لتكون جزءاً من الحل وتتلقى آخر المستجدات حول مكافحة التلوث البلاستيكي</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="form-container">
+                    <h2 style="text-align: center; margin-bottom: 1.5rem;">إنشاء حساب جديد</h2>
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="name">الاسم الكامل</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">كلمة المرور</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">تأكيد كلمة المرور</label>
+                            <input type="password" id="confirm-password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">البلد</label>
+                            <select id="country" class="form-control" required>
+                                <option value="">اختر بلدك</option>
+                                <option value="sa">المملكة العربية السعودية</option>
+                                <option value="ae">الإمارات العربية المتحدة</option>
+                                <option value="eg">مصر</option>
+                                <option value="ma">المغرب</option>
+                                <option value="jo">الأردن</option>
+                                <option value="lb">لبنان</option>
+                                <option value="other">دولة أخرى</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="newsletter" checked>
+                                أرغب في تلقي النشرة الإخبارية حول آخر المستجدات
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">إنشاء حساب</button>
+                    </form>
+                    <p style="text-align: center; margin-top: 1.5rem;">
+                        لديك حساب بالفعل؟ <a href="#" onclick="showPage('login')" style="color: var(--primary);">سجل الدخول هنا</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1618477388957-7a89af6e8e0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+            <div class="container">
+                <h2>تسجيل الدخول</h2>
+                <p>ادخل إلى حسابك للمشاركة في المناقشات وتتبع تقدمك</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="form-container">
+                    <h2 style="text-align: center; margin-bottom: 1.5rem;">تسجيل الدخول</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">البريد الإلكتروني</label>
+                            <input type="email" id="login-email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">كلمة المرور</label>
+                            <input type="password" id="login-password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="remember">
+                                تذكرني
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">تسجيل الدخول</button>
+                    </form>
+                    <p style="text-align: center; margin-top: 1.5rem;">
+                        <a href="#" style="color: var(--primary);">نسيت كلمة المرور؟</a>
+                    </p>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        لا تملك حساباً؟ <a href="#" onclick="showPage('signup')" style="color: var(--primary);">أنشئ حساباً جديداً</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>التلوث البلاستيكي</h3>
+                    <p>نعمل على زيادة الوعي بمخاطر التلوث البلاستيكي وتشجيع الحلول المستدامة لحماية كوكبنا.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')">الرئيسية</a></li>
+                        <li><a href="#" onclick="showPage('about')">عن التلوث</a></li>
+                        <li><a href="#" onclick="showPage('interactive')">التفاعل</a></li>
+                        <li><a href="#" onclick="showPage('resources')">المصادر</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>مصادر مفيدة</h3>
+                    <ul>
+                        <li><a href="#">تقارير التلوث</a></li>
+                        <li><a href="#">أبحاث علمية</a></li>
+                        <li><a href="#">حملات التوعية</a></li>
+                        <li><a href="#">فرص التطوع</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>اتصل بنا</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt" style="margin-left: 8px;"></i> العنوان: القاهرة، مصر</li>
+                        <li><i class="fas fa-phone" style="margin-left: 8px;"></i> الهاتف: +20 123 456 7890</li>
+                        <li><i class="fas fa-envelope" style="margin-left: 8px;"></i> البريد: info@plastic-pollution.org</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 التلوث البلاستيكي. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find and activate the corresponding nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.textContent.trim() === getPageName(pageId)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        function getPageName(pageId) {
+            const pageNames = {
+                'home': 'الرئيسية',
+                'about': 'عن التلوث',
+                'interactive': 'التفاعل',
+                'resources': 'المصادر',
+                'signup': 'إنشاء حساب',
+                'login': 'تسجيل الدخول'
+            };
+            return pageNames[pageId] || '';
+        }
+        
+        // Open Game in New Tab
+        function openGame() {
+            window.open('https://ezz-king33.itch.io/robot', '_blank');
+        }
+        
+        // Form Handling
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('كلمات المرور غير متطابقة!');
+                return;
+            }
+            
+            alert('تم إنشاء حسابك بنجاح! سيتم توجيهك إلى الصفحة الرئيسية.');
+            showPage('home');
+        });
+        
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('تم تسجيل الدخول بنجاح!');
+            showPage('home');
+        });
+        
+        // Interactive Elements
+        function startCalculator() {
+            document.getElementById('calculator').style.display = 'block';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('impact').style.display = 'none';
+            document.getElementById('calculator-result').style.display = 'none';
+        }
+        
+        function calculateFootprint() {
+            const bottles = parseInt(document.getElementById('bottles').value) || 0;
+            const bags = parseInt(document.getElementById('bags').value) || 0;
+            const utensils = parseInt(document.getElementById('utensils').value) || 0;
+            
+            const total = (bottles * 20) + (bags * 5) + (utensils * 2);
+            
+            let message = '';
+            if (total < 50) {
+                message = '<p style="color: green;">بصمتك البلاستيكية منخفضة! استمر في هذا المسار الرائع.</p>';
+            } else if (total < 100) {
+                message = '<p style="color: orange;">بصمتك البلاستيكية متوسطة. يمكنك تقليلها باستخدام بدائل قابلة لإعادة الاستخدام.</p>';
+            } else {
+                message = '<p style="color: red;">بصمتك البلاستيكية عالية. جرب استخدام زجاجة ماء قابلة لإعادة الاستخدام وأكياس قماشية.</p>';
+            }
+            
+            document.getElementById('calculator-result').innerHTML = `
+                <h4>نتيجة حسابك:</h4>
+                <p>بصمتك البلاستيكية الأسبوعية: ${total} غرام</p>
+                ${message}
+                <p>نصيحة: حاول تقليل استخدام البلاستيك ذي الاستخدام الواحد واستبدله ببدائل صديقة للبيئة.</p>
+            `;
+            document.getElementById('calculator-result').style.display = 'block';
+        }
+        
+        function startQuiz() {
+            document.getElementById('calculator').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('impact').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'none';
+            
+            // Reset quiz
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+        
+        function selectOption(element) {
+            // Remove selection from all options in this question
+            element.parentElement.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select clicked option
+            element.classList.add('selected');
+        }
+        
+        let currentQuestion = 1;
+        const totalQuestions = 3;
+        const correctAnswers = [2, 0, 1]; // Index of correct answers (0-based)
+        let userAnswers = [];
+        
+        function nextQuestion() {
+            const selectedOption = document.querySelector('.quiz-option.selected');
+            if (!selectedOption) {
+                alert('يرجى اختيار إجابة!');
+                return;
+            }
+            
+            const optionIndex = Array.from(selectedOption.parentElement.children).indexOf(selectedOption);
+            userAnswers.push(optionIndex);
+            
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                document.getElementById('q1').innerHTML = getQuestionHTML(currentQuestion);
+            } else {
+                showQuizResult();
+            }
+        }
+        
+        function getQuestionHTML(questionNum) {
+            const questions = [
+                {
+                    question: "كم من الوقت يستغرق تحلل كيس بلاستيكي في البيئة؟",
+                    options: ["أقل من سنة", "من 10 إلى 20 سنة", "من 100 إلى 500 سنة", "أكثر من 1000 سنة"]
+                },
+                {
+                    question: "ما هي النسبة التقريبية للبلاستيك الذي يتم إعادة تدويره عالمياً؟",
+                    options: ["9%", "25%", "50%", "75%"]
+                },
+                {
+                    question: "أي من هذه المواد يتحلل أسرع في البيئة؟",
+                    options: ["الزجاج", "الورق", "البلاستيك", "الألومنيوم"]
+                }
+            ];
+            
+            if (questionNum > questions.length) return '';
+            
+            const q = questions[questionNum - 1];
+            let html = `<p>${q.question}</p><div class="quiz-options">`;
+            
+            q.options.forEach((option, index) => {
+                html += `<div class="quiz-option" onclick="selectOption(this)">${option}</div>`;
+            });
+            
+            html += '</div>';
+            return html;
+        }
+        
+        function showQuizResult() {
+            let score = 0;
+            for (let i = 0; i < totalQuestions; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / totalQuestions) * 100;
+            let message = '';
+            
+            if (percentage >= 80) {
+                message = '<p style="color: green;">ممتاز! لديك معرفة جيدة عن التلوث البلاستيكي.</p>';
+            } else if (percentage >= 60) {
+                message = '<p style="color: orange;">جيد، لكن يمكنك تحسين معرفتك أكثر.</p>';
+            } else {
+                message = '<p style="color: red;">تحتاج إلى معرفة المزيد عن التلوث البلاستيكي.</p>';
+            }
+            
+            document.getElementById('quiz-result').innerHTML = `
+                <h4>نتيجة الاختبار:</h4>
+                <p>${score} من ${totalQuestions} أسئلة صحيحة (${percentage}%)</p>
+                ${message}
+                <button class="btn btn-secondary" onclick="startQuiz()">حاول مرة أخرى</button>
+            `;
+            document.getElementById('quiz-result').style.display = 'block';
+            
+            // Reset for next attempt
+            currentQuestion = 1;
+            userAnswers = [];
+        }
+        
+        function showImpact() {
+            document.getElementById('calculator').style.display = 'none';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('impact').style.display = 'block';
+            
+            resetSimulation();
+        }
+        
+        let plasticAmount = 0;
+        let years = 0;
+        
+        function simulateYears(numYears) {
+            years += numYears;
+            plasticAmount += numYears * 8; // 8 million tons per year
+            
+            const plasticHeight = Math.min(70, (plasticAmount / 100) * 70); // Max 70% of ocean visualization
+            document.getElementById('plastic-visualization').style.height = `${plasticHeight}%`;
+            document.getElementById('plastic-visualization').style.background = 'linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))';
+            
+            document.getElementById('impact-stats').innerHTML = `
+                <h4>إحصائيات التلوث بعد ${years} سنة:</h4>
+                <p>إجمالي البلاستيك في المحيطات: ${plasticAmount} مليون طن</p>
+                <p>عدد الحيوانات البحرية المتضررة: ${Math.round(plasticAmount * 12500)} حيوان</p>
+                <p>التكلفة الاقتصادية: ${Math.round(plasticAmount * 13)} مليار دولار</p>
+            `;
+        }
+        
+        function resetSimulation() {
+            plasticAmount = 0;
+            years = 0;
+            document.getElementById('plastic-visualization').style.height = '0%';
+            document.getElementById('impact-stats').innerHTML = `
+                <h4>إحصائيات التلوث:</h4>
+                <p>إجمالي البلاستيك في المحيطات: 0 مليون طن</p>
+                <p>عدد الحيوانات البحرية المتضررة: 0 حيوان</p>
+                <p>التكلفة الاقتصادية: 0 مليار دولار</p>
+            `;
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to cards when they come into view
+            const cards = document.querySelectorAll('.card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // Button click effects
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Add ripple effect styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .btn {
+                    position: relative;
+                    overflow: hidden;
+                }
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.7);
+                    transform: scale(0);
+                    animation: ripple-animation 0.6s linear;
+                }
+                @keyframes ripple-animation {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
