@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التلوث البلاستيكي - Plastic Pollution</title>
+    <title>حفظ المياه والأسمدة - Water & Fertilizer Conservation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Global Styles */
@@ -15,12 +15,14 @@
         }
 
         :root {
-            --primary: #2a9d8f;
-            --secondary: #264653;
-            --accent: #e9c46a;
-            --danger: #e76f51;
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #27ae60;
+            --danger: #e74c3c;
             --light: #f8f9fa;
             --dark: #212529;
+            --water: #1abc9c;
+            --soil: #8B4513;
         }
 
         body {
@@ -30,8 +32,94 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
+        /* Splash Screen Styles */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .splash-logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: logoPulse 2s infinite alternate;
+        }
+
+        .splash-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .splash-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .splash-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .splash-water-drop {
+            font-size: 3rem;
+            margin-top: 2rem;
+            animation: waterDrop 2s infinite;
+        }
+
+        @keyframes logoPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        @keyframes waterDrop {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(20px); opacity: 0.7; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* بقية الأنماط تبقى كما هي */
         .container {
             width: 90%;
             max-width: 1200px;
@@ -79,9 +167,14 @@
             cursor: pointer;
         }
 
-        .logo i {
-            font-size: 2rem;
-            color: var(--accent);
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .logo h1 {
@@ -134,7 +227,7 @@
         .btn {
             display: inline-block;
             background: var(--accent);
-            color: var(--secondary);
+            color: white;
             padding: 0.8rem 1.8rem;
             border-radius: 50px;
             text-decoration: none;
@@ -161,7 +254,7 @@
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            background: #f4a261;
+            background: #2ecc71;
         }
 
         .btn:hover::before {
@@ -178,8 +271,13 @@
             color: white;
         }
 
-        .btn-danger {
-            background: var(--danger);
+        .btn-water {
+            background: var(--water);
+            color: white;
+        }
+
+        .btn-soil {
+            background: var(--soil);
             color: white;
         }
 
@@ -230,17 +328,12 @@
         .card-img {
             height: 200px;
             overflow: hidden;
-        }
-
-        .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .card-img img {
-            transform: scale(1.1);
+            background: linear-gradient(45deg, var(--primary), var(--water));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
         }
 
         .card-content {
@@ -307,7 +400,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
 
         /* Interactive Elements */
@@ -399,16 +492,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .game-frame {
-            width: 100%;
-            height: 500px;
-            border: none;
-            border-radius: 10px;
-            background: #000;
-            margin: 1.5rem 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
         .game-description {
             text-align: right;
             margin-top: 1.5rem;
@@ -457,11 +540,14 @@
         .resource-item h3 {
             color: var(--primary);
             margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
         }
 
         .resource-item ul {
             list-style-type: none;
             padding-right: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .resource-item li {
@@ -476,6 +562,74 @@
             display: inline-block;
             width: 1em;
             margin-left: 0.5em;
+        }
+
+        .resource-links {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #ddd;
+        }
+
+        .resource-link {
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .resource-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .resource-link i {
+            margin-left: 0.5rem;
+        }
+
+        /* Water Drop Animation */
+        .water-drop {
+            display: inline-block;
+            animation: drip 2s infinite;
+        }
+
+        @keyframes drip {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(20px); opacity: 0.7; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Logo Placement Styles */
+        .logo-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 1rem 0;
+        }
+
+        .logo-img-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-img-medium {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         /* Footer */
@@ -555,6 +709,152 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* Hero Section Logo */
+        .hero-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Crop Selection Game Styles */
+        .crop-game-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .climate-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .climate-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .climate-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .climate-card.selected {
+            border-color: var(--accent);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .climate-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .crops-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .crop-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .crop-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .crop-card.selected {
+            border-color: var(--accent);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .crop-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .game-result {
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-success {
+            background: rgba(39, 174, 96, 0.1);
+            border: 2px solid var(--accent);
+        }
+
+        .result-error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid var(--danger);
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-icon {
+            color: var(--accent);
+        }
+
+        .error-icon {
+            color: var(--danger);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
@@ -571,31 +871,61 @@
                 font-size: 2.2rem;
             }
             
-            .game-frame {
-                height: 400px;
+            .logo-placeholder {
+                flex-direction: column;
+                text-align: center;
             }
-        }
-        
-        @media (max-width: 480px) {
-            .game-frame {
-                height: 300px;
+            
+            .splash-title {
+                font-size: 2rem;
+            }
+            
+            .splash-logo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .climate-selection {
+                grid-template-columns: 1fr;
+            }
+
+            .crops-selection {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-logo-container">
+            <img src="1.png" alt="Logo" class="splash-logo">
+            <h1 class="splash-title">حفظ المياه والأسمدة</h1>
+            <p class="splash-subtitle">من أجل مستقبل مستدام وبيئة أفضل للأجيال القادمة</p>
+        </div>
+        <div class="splash-water-drop">💧</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loading-progress"></div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo" onclick="showPage('home')">
-                    <i class="fas fa-earth-americas"></i>
-                    <h1>التلوث البلاستيكي</h1>
+                    <img src="1.png" alt="Logo" class="logo-img">
+                    <h1>حفظ المياه والأسمدة</h1>
                 </div>
                 <nav>
                     <ul>
                         <li><a class="nav-link active" onclick="showPage('home')">الرئيسية</a></li>
-                        <li><a class="nav-link" onclick="showPage('about')">عن التلوث</a></li>
+                        <li><a class="nav-link" onclick="showPage('about')">عن الحفظ</a></li>
                         <li><a class="nav-link" onclick="showPage('interactive')">التفاعل</a></li>
                         <li><a class="nav-link" onclick="showPage('resources')">المصادر</a></li>
                         <li><a class="nav-link" onclick="showPage('signup')">إنشاء حساب</a></li>
@@ -609,47 +939,50 @@
     <!-- Home Page -->
     <div id="home" class="page active">
         <!-- Hero Section -->
-        <section class="hero">
+        <section class="hero" style="background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)), url('https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; color: white; padding: 6rem 0; text-align: center;">
             <div class="container">
-                <h2>حارب التلوث البلاستيكي من أجل كوكب أنظف</h2>
-                <p>البلاستيك يغزو محيطاتنا ويضر بالحياة البحرية ويهدد صحتنا. انضم إلى الحركة العالمية للحد من التلوث البلاستيكي.</p>
-                <button class="btn btn-primary" onclick="showPage('about')">اكتشف المزيد</button>
+                <div class="hero-logo">
+                    <img src="1.png" alt="Logo" class="logo-img-large">
+                </div>
+                <h2 style="font-size: 3rem; margin-bottom: 1.5rem;">حافظ على المياه والأسمدة <span class="water-drop">💧</span> من أجل مستقبل مستدام</h2>
+                <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem;">اكتشف طرق مبتكرة لترشيد استهلاك المياه وتحسين استخدام الأسمدة لتحقيق زراعة مستدامة وحماية بيئتنا.</p>
+                <button class="btn btn-primary" onclick="showPage('about')" style="font-size: 1.1rem; padding: 1rem 2rem;">اكتشف المزيد</button>
             </div>
         </section>
 
         <!-- About Section -->
         <section id="about-preview">
             <div class="container">
-                <h2 class="section-title">مشكلة البلاستيك</h2>
+                <h2 class="section-title">أهمية الحفاظ على المياه والأسمدة</h2>
                 <div class="cards">
                     <div class="card">
                         <div class="card-img">
-                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Plastic in ocean">
+                            <i class="fas fa-tint"></i>
                         </div>
                         <div class="card-content">
-                            <h3>البلاستيك في المحيطات</h3>
-                            <p>يصل أكثر من 8 ملايين طن من البلاستيك إلى محيطاتنا كل عام، مما يهدد الحياة البحرية والنظم البيئية.</p>
-                            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
+                            <h3>ترشيد استهلاك المياه</h3>
+                            <p>تعلم كيفية تقليل هدر المياه في الزراعة والري باستخدام تقنيات حديثة تصل نسبة التوفير إلى 50%.</p>
+                            <button class="btn btn-water" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-img">
-                            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" alt="Microplastics">
+                            <i class="fas fa-seedling"></i>
                         </div>
                         <div class="card-content">
-                            <h3>البلاستيك الدقيق</h3>
-                            <p>البلاستيك الدقيق موجود في مياه الشرب والهواء والغذاء، ويمكن أن يدخل أجسامنا ويسبب مشاكل صحية.</p>
-                            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
+                            <h3>الاستخدام الذكي للأسمدة</h3>
+                            <p>استخدم الأسمدة بكفاءة لتقليل التلوث البيئي وتوفير التكاليف مع زيادة الإنتاجية.</p>
+                            <button class="btn btn-soil" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-img">
-                            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Plastic waste">
+                            <i class="fas fa-leaf"></i>
                         </div>
                         <div class="card-content">
-                            <h3>النفايات البلاستيكية</h3>
-                            <p>يتم إنتاج أكثر من 300 مليون طن من النفايات البلاستيكية كل عام، ولا يتم إعادة تدوير سوى 9% منها.</p>
-                            <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
+                            <h3>الزراعة المستدامة</h3>
+                            <p>دمج تقنيات الحفاظ على المياه والأسمدة لتحقيق نظام زراعي مستدام وصديق للبيئة.</p>
+                            <button class="btn btn-accent" style="margin-top: 1rem;" onclick="showPage('about')">اقرأ المزيد</button>
                         </div>
                     </div>
                 </div>
@@ -662,24 +995,24 @@
                 <h2 class="section-title" style="color: white;">إحصائيات صادمة</h2>
                 <div class="cards">
                     <div class="fact-item">
-                        <i class="fas fa-wine-bottle"></i>
-                        <h3>مليون</h3>
-                        <p>زجاجة بلاستيكية تُباع كل دقيقة حول العالم</p>
+                        <i class="fas fa-tint"></i>
+                        <h3>70%</h3>
+                        <p>من المياه العذبة تستخدم في الزراعة عالمياً</p>
                     </div>
                     <div class="fact-item">
-                        <i class="fas fa-fish"></i>
-                        <h3>100,000</h3>
-                        <p>حيوان بحري يموت سنوياً بسبب البلاستيك</p>
+                        <i class="fas fa-seedling"></i>
+                        <h3>40%</h3>
+                        <p>هدر في استخدام الأسمدة بسبب سوء الاستخدام</p>
                     </div>
                     <div class="fact-item">
                         <i class="fas fa-recycle"></i>
-                        <h3>500</h3>
-                        <p>عام هي المدة التي يحتاجها البلاستيك للتحلل</p>
+                        <h3>50%</h3>
+                        <p>توفير محتمل في المياه باستخدام الري الذكي</p>
                     </div>
                     <div class="fact-item">
-                        <i class="fas fa-shopping-bag"></i>
-                        <h3>5 تريليون</h3>
-                        <p>كيس بلاستيكي يستخدم سنوياً حول العالم</p>
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>30%</h3>
+                        <p>توفير في تكاليف الزراعة مع الاستخدام الأمثل</p>
                     </div>
                 </div>
             </div>
@@ -688,30 +1021,33 @@
         <!-- Solutions Section -->
         <section id="solutions">
             <div class="container">
-                <h2 class="section-title">الحلول الممكنة</h2>
+                <div class="logo-placeholder">
+                    <img src="1.png" alt="Logo" class="logo-img-medium">
+                    <h3 style="margin: 0;">حلولنا المبتكرة</h3>
+                </div>
                 <div class="cards">
                     <div class="card">
                         <div class="card-content">
-                            <h3><i class="fas fa-recycle" style="color: var(--primary); margin-left: 10px;"></i> إعادة التدوير</h3>
-                            <p>تحسين أنظمة إعادة التدوير وتشجيع الاستهلاك المسؤول للمواد البلاستيكية.</p>
+                            <h3><i class="fas fa-cloud-rain" style="color: var(--water); margin-left: 10px;"></i> أنظمة الري الذكية</h3>
+                            <p>استخدام أجهزة استشعار رطوبة التربة وتقنيات الري بالتنقيط لتوفير المياه.</p>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-content">
-                            <h3><i class="fas fa-ban" style="color: var(--danger); margin-left: 10px;"></i> تقليل الاستخدام</h3>
-                            <p>تقليل الاعتماد على المنتجات البلاستيكية ذات الاستخدام الواحد.</p>
+                            <h3><i class="fas fa-flask" style="color: var(--soil); margin-left: 10px;"></i> الأسمدة الذكية</h3>
+                            <p>أسمدة متحكم في إطلاق المغذيات تمنع الهدر وتقلل التلوث.</p>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-content">
-                            <h3><i class="fas fa-leaf" style="color: var(--primary); margin-left: 10px;"></i> بدائل صديقة للبيئة</h3>
-                            <p>استخدام بدائل قابلة للتحلل أو قابلة لإعادة الاستخدام بدلاً من البلاستيك.</p>
+                            <h3><i class="fas fa-leaf" style="color: var(--accent); margin-left: 10px;"></i> الزراعة الدقيقة</h3>
+                            <p>تطبيق التقنيات الحديثة لتحديد احتياجات كل نبات بدقة.</p>
                         </div>
                     </div>
                 </div>
                 <div style="text-align: center; margin-top: 3rem;">
                     <button class="btn btn-primary" onclick="showPage('signup')">انضم إلى مبادرتنا</button>
-                    <button class="btn btn-secondary" onclick="showPage('interactive')">شارك في الحملات</button>
+                    <button class="btn btn-secondary" onclick="showPage('interactive')">جرب أدواتنا</button>
                 </div>
             </div>
         </section>
@@ -719,10 +1055,13 @@
 
     <!-- About Page -->
     <div id="about" class="page">
-        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1618477388957-7a89af6e8e0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <section class="hero" style="background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)); color: white; padding: 4rem 0; text-align: center;">
             <div class="container">
-                <h2>عن التلوث البلاستيكي</h2>
-                <p>تعرف على الأسباب والآثار والحلول لأزمة التلوث البلاستيكي العالمية</p>
+                <div class="logo-placeholder">
+                    <img src="1.png" alt="Logo" class="logo-img-large">
+                    <h2 style="margin: 0; color: white;">عن الحفاظ على المياه والأسمدة</h2>
+                </div>
+                <p style="color: white;">تعرف على أهمية ترشيد الاستهلاك وتأثيره الإيجابي على البيئة والاقتصاد</p>
             </div>
         </section>
 
@@ -731,43 +1070,45 @@
                 <div class="cards">
                     <div class="card">
                         <div class="card-content">
-                            <h3>ما هو التلوث البلاستيكي؟</h3>
-                            <p>التلوث البلاستيكي هو تراكم المنتجات البلاستيكية في البيئة التي تؤثر سلبًا على الحياة البرية والموائل البرية والبشر. أصبح البلاستيك مادة شائعة الاستخدام منذ القرن العشرين، ومقاومته للتدهور تعني أن آثاره البيئية قد تستمر لقرون.</p>
+                            <h3>لماذا الحفاظ على المياه؟</h3>
+                            <p>المياه مورد محدود ومهم للحياة والزراعة. مع تزايد السكان والتغير المناخي، أصبح ترشيد استهلاك المياه ضرورة حتمية للحفاظ على الأمن المائي والغذائي.</p>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-content">
-                            <h3>الأسباب الرئيسية</h3>
+                            <h3>تحديات استهلاك الأسمدة</h3>
                             <ul>
-                                <li>الاستخدام المفرط للمواد البلاستيكية ذات الاستخدام الواحد</li>
-                                <li>أنظمة إدارة النفايات غير الفعالة</li>
-                                <li>الإنتاج الضخم للبلاستيك دون اعتبار للتخلص منه</li>
-                                <li>السلوك الاستهلاكي غير المسؤول</li>
-                                <li>عدم كفاية إعادة التدوير</li>
+                                <li>هدر الأسمدة بسبب التطبيق غير الدقيق</li>
+                                <li>تلوث المياه الجوفية والأنهار</li>
+                                <li>ارتفاع التكاليف على المزارعين</li>
+                                <li>تأثير سلبي على جودة التربة</li>
+                                <li>انبعاثات غازات الدفيئة</li>
                             </ul>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-content">
-                            <h3>الآثار على البيئة</h3>
+                            <h3>فوائد الاستخدام الأمثل</h3>
                             <ul>
-                                <li>تلوث المحيطات والأنهار والبحيرات</li>
-                                <li>وفاة الكائنات البحرية بسبب ابتلاع البلاستيك أو التشابك فيه</li>
-                                <li>تدمير النظم البيئية البحرية</li>
-                                <li>تلوث التربة والموائل البرية</li>
-                                <li>إطلاق مواد كيميائية سامة أثناء تحلل البلاستيك</li>
+                                <li>توفير يصل إلى 50% في استهلاك المياه</li>
+                                <li>تقليل تكاليف الزراعة بنسبة 30%</li>
+                                <li>تحسين جودة المحاصيل وزيادة الإنتاج</li>
+                                <li>حماية البيئة والمصادر المائية</li>
+                                <li>استدامة الموارد للأجيال القادمة</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h3 class="section-title">البلاستيك في السلسلة الغذائية</h3>
+                    <h3 class="section-title">تقنيات حديثة في الري</h3>
                     <div class="card">
                         <div class="card-content">
-                            <p>يدخل البلاستيك الدقيق السلسلة الغذائية من خلال الكائنات البحرية التي تبتلعه. عندما تأكل الأسماك والمحار البلاستيك الدقيق، يمكن أن تنتقل هذه الجسيمات إلى البشر عند استهلاك هذه المأكولات البحرية. هذا يشكل خطرًا محتملاً على صحة الإنسان.</p>
+                            <p>تشمل التقنيات الحديثة أنظمة الري بالتنقيط، والري الذكي باستخدام أجهزة الاستشعار، والري حسب احتياجات النبات. هذه التقنيات تساعد في توفير المياه وتقليل الهدر بشكل كبير.</p>
                             <div style="text-align: center; margin-top: 2rem;">
-                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80" alt="Microplastics" style="max-width: 100%; border-radius: 8px;">
+                                <div class="card-img">
+                                    <i class="fas fa-water" style="font-size: 4rem;"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -782,10 +1123,13 @@
 
     <!-- Interactive Page -->
     <div id="interactive" class="page">
-        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <section class="hero" style="background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)); color: white; padding: 4rem 0; text-align: center;">
             <div class="container">
-                <h2>التفاعل مع المشكلة</h2>
-                <p>استكشف أدوات تفاعلية لمعرفة المزيد عن التلوث البلاستيكي وكيف يمكنك المساعدة</p>
+                <div class="logo-placeholder">
+                    <img src="1.png" alt="Logo" class="logo-img-large">
+                    <h2 style="margin: 0; color: white;">التفاعل مع الحلول</h2>
+                </div>
+                <p style="color: white;">استكشف أدوات تفاعلية لمعرفة المزيد عن ترشيد المياه والأسمدة وكيف يمكنك المساعدة</p>
             </div>
         </section>
 
@@ -796,51 +1140,56 @@
                 <div class="interactive-container">
                     <div class="interactive-item" onclick="startCalculator()">
                         <i class="fas fa-calculator"></i>
-                        <h3>حاسبة البصمة البلاستيكية</h3>
-                        <p>احسب كمية البلاستيك التي تستخدمها وتعلم كيفية تقليلها</p>
+                        <h3>حاسبة الاستهلاك</h3>
+                        <p>احسب كمية المياه والأسمدة التي تستخدمها وتعلم كيفية تقليلها</p>
                     </div>
                     <div class="interactive-item" onclick="startQuiz()">
                         <i class="fas fa-question-circle"></i>
                         <h3>اختبار المعرفة</h3>
-                        <p>اختبر معلوماتك حول التلوث البلاستيكي وتأثيره</p>
+                        <p>اختبر معلوماتك حول ترشيد المياه والاستخدام الأمثل للأسمدة</p>
                     </div>
                     <div class="interactive-item" onclick="showImpact()">
                         <i class="fas fa-chart-line"></i>
-                        <h3>تأثير البلاستيك</h3>
-                        <p>شاهد كيف يؤثر البلاستيك على البيئة بمرور الوقت</p>
+                        <h3>تأثير الترشيد</h3>
+                        <p>شاهد كيف يؤثر الترشيد على البيئة والاقتصاد بمرور الوقت</p>
+                    </div>
+                    <div class="interactive-item" onclick="startCropGame()">
+                        <i class="fas fa-seedling"></i>
+                        <h3>لعبة المحاصيل</h3>
+                        <p>اختر المحاصيل المناسبة للمناخ المختلف</p>
                     </div>
                 </div>
 
-                <!-- Plastic Footprint Calculator -->
+                <!-- Consumption Calculator -->
                 <div id="calculator" class="quiz-container" style="display: none;">
-                    <h3>حاسبة البصمة البلاستيكية</h3>
+                    <h3>حاسبة استهلاك المياه والأسمدة</h3>
                     <div class="form-group">
-                        <label>كم عدد زجاجات المياه البلاستيكية التي تستخدمها أسبوعياً؟</label>
-                        <input type="number" id="bottles" class="form-control" min="0" value="0">
+                        <label>مساحة الأرض الزراعية (هكتار)</label>
+                        <input type="number" id="land" class="form-control" min="0" value="1">
                     </div>
                     <div class="form-group">
-                        <label>كم عدد الأكياس البلاستيكية التي تستخدمها أسبوعياً؟</label>
-                        <input type="number" id="bags" class="form-control" min="0" value="0">
+                        <label>كمية المياه المستخدمة أسبوعياً (م³)</label>
+                        <input type="number" id="waterUsage" class="form-control" min="0" value="100">
                     </div>
                     <div class="form-group">
-                        <label>كم عدد أدوات المائدة البلاستيكية التي تستخدمها أسبوعياً؟</label>
-                        <input type="number" id="utensils" class="form-control" min="0" value="0">
+                        <label>كمية الأسمدة المستخدمة شهرياً (كجم)</label>
+                        <input type="number" id="fertilizerUsage" class="form-control" min="0" value="50">
                     </div>
-                    <button class="btn btn-primary" onclick="calculateFootprint()">احسب بصمتك</button>
+                    <button class="btn btn-primary" onclick="calculateConsumption()">احسب استهلاكك</button>
                     <div id="calculator-result" style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; display: none;"></div>
                 </div>
 
                 <!-- Quiz -->
                 <div id="quiz" class="quiz-container" style="display: none;">
-                    <h3>اختبار المعرفة حول التلوث البلاستيكي</h3>
+                    <h3>اختبار المعرفة حول ترشيد المياه والأسمدة</h3>
                     <div id="quiz-questions">
                         <div class="quiz-question" id="q1">
-                            <p>كم من الوقت يستغرق تحلل كيس بلاستيكي في البيئة؟</p>
+                            <p>ما هي أفضل طريقة لترشيد استهلاك المياه في الزراعة؟</p>
                             <div class="quiz-options">
-                                <div class="quiz-option" onclick="selectOption(this)">أقل من سنة</div>
-                                <div class="quiz-option" onclick="selectOption(this)">من 10 إلى 20 سنة</div>
-                                <div class="quiz-option" onclick="selectOption(this)">من 100 إلى 500 سنة</div>
-                                <div class="quiz-option" onclick="selectOption(this)">أكثر من 1000 سنة</div>
+                                <div class="quiz-option" onclick="selectOption(this)">الري بالغمر</div>
+                                <div class="quiz-option" onclick="selectOption(this)">الري بالتنقيط</div>
+                                <div class="quiz-option" onclick="selectOption(this)">الري بالرشاشات</div>
+                                <div class="quiz-option" onclick="selectOption(this)">الري حسب المزاج</div>
                             </div>
                         </div>
                     </div>
@@ -850,11 +1199,10 @@
 
                 <!-- Impact Visualization -->
                 <div id="impact" class="quiz-container" style="display: none;">
-                    <h3>تأثير البلاستيك على البيئة</h3>
-                    <p>شاهد كيف يتراكم البلاستيك في البيئة بمرور الوقت:</p>
+                    <h3>تأثير ترشيد الاستهلاك</h3>
+                    <p>شاهد كيف يتراكم التوفير بمرور الوقت:</p>
                     <div style="height: 300px; background: #e9ecef; border-radius: 4px; position: relative; overflow: hidden; margin-top: 1rem;">
-                        <div id="ocean-visualization" style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, #1e90ff, #00bfff); height: 70%;"></div>
-                        <div id="plastic-visualization" style="position: absolute; bottom: 0; width: 100%;"></div>
+                        <div id="savings-visualization" style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, var(--accent), #2ecc71); height: 0%;"></div>
                     </div>
                     <div style="text-align: center; margin-top: 1rem;">
                         <button class="btn btn-secondary" onclick="simulateYears(1)">+1 سنة</button>
@@ -864,6 +1212,108 @@
                     </div>
                     <div id="impact-stats" style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;"></div>
                 </div>
+
+                <!-- Crop Selection Game -->
+                <div id="crop-game" class="crop-game-container" style="display: none;">
+                    <div class="game-header">
+                        <h3>لعبة اختيار المحاصيل المناسبة للمناخ</h3>
+                        <p>اختر المناخ ثم اختر المحاصيل المناسبة لهذا المناخ</p>
+                    </div>
+                    
+                    <div class="game-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="score">0</div>
+                            <div>النقاط</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="level">1</div>
+                            <div>المستوى</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="lives">3</div>
+                            <div>المحاولات</div>
+                        </div>
+                    </div>
+
+                    <div class="climate-selection">
+                        <div class="climate-card" onclick="selectClimate('desert')">
+                            <div class="climate-icon">🏜️</div>
+                            <h4>مناخ صحراوي</h4>
+                            <p>حار وجاف، أمطار قليلة</p>
+                        </div>
+                        <div class="climate-card" onclick="selectClimate('mediterranean')">
+                            <div class="climate-icon">🌊</div>
+                            <h4>مناخ متوسطي</h4>
+                            <p>معتدل، شتاء ماطر وصيف جاف</p>
+                        </div>
+                        <div class="climate-card" onclick="selectClimate('tropical')">
+                            <div class="climate-icon">🌴</div>
+                            <h4>مناخ استوائي</h4>
+                            <p>حار ورطب، أمطار غزيرة</p>
+                        </div>
+                        <div class="climate-card" onclick="selectClimate('temperate')">
+                            <div class="climate-icon">🍂</div>
+                            <h4>مناخ معتدل</h4>
+                            <p>فصول متباينة، أمطار منتظمة</p>
+                        </div>
+                    </div>
+
+                    <div id="crops-section" style="display: none;">
+                        <h4 style="text-align: center; margin-bottom: 1rem;">اختر المحاصيل المناسبة للمناخ المحدد</h4>
+                        <div class="crops-selection">
+                            <div class="crop-card" onclick="selectCrop('date')">
+                                <div class="crop-image">🌴</div>
+                                <h5>النخيل</h5>
+                                <p>يتحمل الجفاف</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('olive')">
+                                <div class="crop-image">🫒</div>
+                                <h5>الزيتون</h5>
+                                <p>يتحمل الجفاف</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('tomato')">
+                                <div class="crop-image">🍅</div>
+                                <h5>الطماطم</h5>
+                                <p>مناخ معتدل</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('rice')">
+                                <div class="crop-image">🌾</div>
+                                <h5>الأرز</h5>
+                                <p>يتطلب مياه كثيرة</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('banana')">
+                                <div class="crop-image">🍌</div>
+                                <h5>الموز</h5>
+                                <p>مناخ استوائي</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('wheat')">
+                                <div class="crop-image">🌾</div>
+                                <h5>القمح</h5>
+                                <p>مناخ معتدل</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('coffee')">
+                                <div class="crop-image">☕</div>
+                                <h5>البن</h5>
+                                <p>مناخ استوائي</p>
+                            </div>
+                            <div class="crop-card" onclick="selectCrop('grape')">
+                                <div class="crop-image">🍇</div>
+                                <h5>العنب</h5>
+                                <p>مناخ متوسطي</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="checkCropSelection()" style="width: 100%; margin-top: 1rem;">تحقق من الاختيار</button>
+                    </div>
+
+                    <div id="game-result" class="game-result">
+                        <div class="result-icon success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 id="result-title">إجابة صحيحة!</h3>
+                        <p id="result-message">لقد اخترت المحصول المناسب للمناخ.</p>
+                        <button class="btn btn-primary" onclick="nextLevel()">المستوى التالي</button>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -871,8 +1321,11 @@
         <section class="game-section">
             <div class="container">
                 <div class="game-container">
-                    <h2 class="section-title" style="color: white;">لعبة الروبوت النظيف</h2>
-                    <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">استمتع بلعبة تفاعلية حيث تساعد الروبوت في تنظيف الكوكب من النفايات البلاستيكية</p>
+                    <div class="logo-placeholder">
+                        <img src="1.png" alt="Logo" class="logo-img-medium">
+                        <h2 class="section-title" style="color: white; margin: 0;">لعبة الروبوت النظيف</h2>
+                    </div>
+                    <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">استمتع بلعبة تفاعلية حيث تساعد الروبوت في تنظيف البيئة والحفاظ على الموارد</p>
                     
                     <div class="game-content">
                         <h3 style="margin-bottom: 1rem;">العب الآن!</h3>
@@ -889,24 +1342,24 @@
                             <div class="game-feature">
                                 <i class="fas fa-robot"></i>
                                 <h4>روبوت ذكي</h4>
-                                <p>تحكم بروبوت متطور مهمته تنظيف البيئة</p>
+                                <p>تحكم بروبوت متطور مهمته حماية البيئة</p>
                             </div>
                             <div class="game-feature">
-                                <i class="fas fa-recycle"></i>
-                                <h4>فرز النفايات</h4>
-                                <p>تعلم كيفية فرز النفايات البلاستيكية بشكل صحيح</p>
+                                <i class="fas fa-tint"></i>
+                                <h4>ترشيد المياه</h4>
+                                <p>تعلم كيفية استخدام المياه بشكل فعال</p>
                             </div>
                             <div class="game-feature">
                                 <i class="fas fa-medal"></i>
                                 <h4>تحديات ممتعة</h4>
-                                <p>تخطى المستويات وارفع مهاراتك في إعادة التدوير</p>
+                                <p>تخطى المستويات وارفع مهاراتك في الحفاظ على الموارد</p>
                             </div>
                         </div>
                         
                         <div class="game-description">
                             <h4>عن اللعبة:</h4>
-                            <p>في هذه اللعبة التفاعلية، ستلعب دور روبوت متطور مهمته تنظيف الكوكب من النفايات البلاستيكية. ستتعلم خلال اللعبة كيفية فرز أنواع البلاستيك المختلفة وإعادة تدويرها بشكل صحيح. كل مستوى يمثل تحدياً جديداً حيث تزداد صعوبة المهمة، مما يساعدك على فهم أهمية إعادة التدوير في حماية بيئتنا.</p>
-                            <p>اللعبة مصممة لتكون ممتعة وتعليمية في نفس الوقت، حيث تقدم معلومات قيمة عن التلوث البلاستيكي بينما تستمتع بتجربة اللعب.</p>
+                            <p>في هذه اللعبة التفاعلية، ستلعب دور روبوت متطور مهمته حماية البيئة وترشيد استخدام الموارد. ستتعلم خلال اللعبة كيفية استخدام المياه والأسمدة بشكل فعال، وتجنب الهدر، وحماية البيئة من التلوث.</p>
+                            <p>اللعبة مصممة لتكون ممتعة وتعليمية في نفس الوقت، حيث تقدم معلومات قيمة عن الحفاظ على الموارد بينما تستمتع بتجربة اللعب.</p>
                         </div>
                     </div>
                 </div>
@@ -916,10 +1369,13 @@
 
     <!-- Resources Page -->
     <div id="resources" class="page">
-        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1589656384667-54e2ce6ef01a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');">
+        <section class="hero" style="background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)); color: white; padding: 4rem 0; text-align: center;">
             <div class="container">
-                <h2>المصادر والتعليم</h2>
-                <p>اكتشف موارد تعليمية ومبادرات ومنظمات تعمل على مكافحة التلوث البلاستيكي</p>
+                <div class="logo-placeholder">
+                    <img src="1.png" alt="Logo" class="logo-img-large">
+                    <h2 style="margin: 0; color: white;">المصادر والتعليم</h2>
+                </div>
+                <p style="color: white;">اكتشف موارد تعليمية ومبادرات ومنظمات تعمل على ترشيد استهلاك المياه والأسمدة</p>
             </div>
         </section>
 
@@ -928,60 +1384,160 @@
                 <h2 class="section-title">مصادر للمعرفة والعمل</h2>
                 
                 <div class="resources-grid">
-                    <div class="resource-item">
-                        <h3>تقارير ودراسات</h3>
-                        <ul>
-                            <li>تقرير الأمم المتحدة عن التلوث البلاستيكي في المحيطات</li>
-                            <li>دراسة منظمة الصحة العالمية عن البلاستيك الدقيق في مياه الشرب</li>
-                            <li>أبحاث حول تأثير البلاستيك على الحياة البحرية</li>
-                            <li>تحليلات اقتصادية لتكلفة التلوث البلاستيكي</li>
-                        </ul>
-                    </div>
+                    <!-- منظمات عالمية -->
                     <div class="resource-item">
                         <h3>منظمات عالمية</h3>
                         <ul>
+                            <li>منظمة الأغذية والزراعة (FAO)</li>
                             <li>برنامج الأمم المتحدة للبيئة (UNEP)</li>
-                            <li>منظمة السلام الأخضر (Greenpeace)</li>
-                            <li>مؤسسة إلين ماك آرثر (Ellen MacArthur Foundation)</li>
-                            <li>منظمة المحيطات (Oceana)</li>
+                            <li>منظمة المياه العالمية (World Water Council)</li>
                             <li>الاتحاد الدولي لحفظ الطبيعة (IUCN)</li>
+                            <li>منظمة الصحة العالمية (WHO)</li>
                         </ul>
+                        <div class="resource-links">
+                            <a href="https://www.fao.org" target="_blank" class="resource-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                زيارة موقع FAO
+                            </a>
+                            <a href="https://www.unep.org" target="_blank" class="resource-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                زيارة موقع UNEP
+                            </a>
+                            <a href="https://www.worldwatercouncil.org" target="_blank" class="resource-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                زيارة موقع World Water Council
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- مبادرات محلية -->
                     <div class="resource-item">
                         <h3>مبادرات محلية</h3>
                         <ul>
-                            <li>حملة "الرياض بلا بلاستيك"</li>
-                            <li>مبادرة "شواطئنا نظيفة" في الإمارات</li>
-                            <li>"بدون بلاستيك" في مصر</li>
-                            <li>"بيئتنا مسؤوليتنا" في المغرب</li>
+                            <li>برنامج "قطرة" لترشيد المياه</li>
+                            <li>مبادرة "الزراعة الذكية" في السعودية</li>
+                            <li>"الري الحديث" في مصر</li>
+                            <li>"أسمدة ذكية" في الإمارات</li>
+                            <li>"مياهنا مسؤوليتنا" في المغرب</li>
                         </ul>
+                        <div class="resource-links">
+                            <a href="https://www.qatra.org" target="_blank" class="resource-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                برنامج قطرة
+                            </a>
+                            <a href="https://www.smartagri.sa" target="_blank" class="resource-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                الزراعة الذكية - السعودية
+                            </a>
+                            <a href="https://www.modernirrigation.eg" target="_blank" class="resource-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                الري الحديث - مصر
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- تقارير ودراسات -->
+                    <div class="resource-item">
+                        <h3>تقارير ودراسات</h3>
+                        <ul>
+                            <li>تقرير الأمم المتحدة عن ندرة المياه</li>
+                            <li>دراسات عن تأثير الأسمدة على البيئة</li>
+                            <li>أبحاث حول تقنيات الري الحديثة</li>
+                            <li>تحليلات اقتصادية للزراعة المستدامة</li>
+                            <li>دراسات عن الأسمدة العضوية والبديلة</li>
+                        </ul>
+                        <div class="resource-links">
+                            <a href="https://www.unwater.org/publications" target="_blank" class="resource-link">
+                                <i class="fas fa-download"></i>
+                                تقارير المياه العالمية
+                            </a>
+                            <a href="https://www.fao.org/fertilizer-studies" target="_blank" class="resource-link">
+                                <i class="fas fa-download"></i>
+                                دراسات الأسمدة - FAO
+                            </a>
+                            <a href="https://www.iwmi.org/research" target="_blank" class="resource-link">
+                                <i class="fas fa-download"></i>
+                                أبحاث إدارة المياه
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- أدوات عملية -->
                     <div class="resource-item">
                         <h3>أدوات عملية</h3>
                         <ul>
-                            <li>دليل تقليل الاستهلاك البلاستيكي</li>
-                            <li>خريطة مراكز إعادة التدوير</li>
-                            <li>قائمة بالبدائل الصديقة للبيئة</li>
-                            <li>نماذج عرائض للمطالبة بتغيير السياسات</li>
+                            <li>حاسبة البصمة المائية</li>
+                            <li>خريطة مصادر المياه</li>
+                            <li>دليل الأسمدة العضوية</li>
+                            <li>تطبيقات الري الذكي</li>
+                            <li>أدوات قياس جودة التربة</li>
                         </ul>
+                        <div class="resource-links">
+                            <a href="https://www.waterfootprint.org" target="_blank" class="resource-link">
+                                <i class="fas fa-calculator"></i>
+                                حاسبة البصمة المائية
+                            </a>
+                            <a href="https://www.soilhealth.com" target="_blank" class="resource-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                أدوات قياس صحة التربة
+                            </a>
+                            <a href="https://www.organicfertilizer.org" target="_blank" class="resource-link">
+                                <i class="fas fa-leaf"></i>
+                                دليل الأسمدة العضوية
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- مصادر تعليمية -->
                     <div class="resource-item">
                         <h3>مصادر تعليمية</h3>
                         <ul>
-                            <li>فيديوهات توعوية عن البلاستيك</li>
+                            <li>فيديوهات توعوية عن ترشيد المياه</li>
                             <li>خطط دروس للمعلمين</li>
                             <li>أنشطة تفاعلية للأطفال</li>
-                            <li>كتب ومجلات متخصصة</li>
+                            <li>كورسات عن الزراعة المستدامة</li>
+                            <li>كتب عن إدارة الموارد المائية</li>
                         </ul>
+                        <div class="resource-links">
+                            <a href="https://www.edx.org/water-conservation" target="_blank" class="resource-link">
+                                <i class="fas fa-graduation-cap"></i>
+                                كورسات عن ترشيد المياه
+                            </a>
+                            <a href="https://www.nationalgeographic.org/water" target="_blank" class="resource-link">
+                                <i class="fas fa-book"></i>
+                                موارد تعليمية - ناشيونال جيوغرافيك
+                            </a>
+                            <a href="https://www.kidsandwater.org" target="_blank" class="resource-link">
+                                <i class="fas fa-child"></i>
+                                أنشطة تفاعلية للأطفال
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- أخبار ومستجدات -->
                     <div class="resource-item">
                         <h3>أخبار ومستجدات</h3>
                         <ul>
                             <li>آخر الأبحاث العلمية</li>
-                            <li>تطورات السياسات العالمية</li>
-                            <li>قصص نجاح في الحد من البلاستيك</li>
-                            <li>تقنيات جديدة لإعادة التدوير</li>
+                            <li>تطورات تقنيات الري</li>
+                            <li>قصص نجاح في ترشيد الاستهلاك</li>
+                            <li>مؤتمرات المياه العالمية</li>
+                            <li>تحديثات السياسات الزراعية</li>
                         </ul>
+                        <div class="resource-links">
+                            <a href="https://www.sciencedaily.com/water" target="_blank" class="resource-link">
+                                <i class="fas fa-flask"></i>
+                                آخر الأبحاث العلمية
+                            </a>
+                            <a href="https://www.agriculture.com/news" target="_blank" class="resource-link">
+                                <i class="fas fa-newspaper"></i>
+                                أخبار الزراعة المستدامة
+                            </a>
+                            <a href="https://www.waterworld.com" target="_blank" class="resource-link">
+                                <i class="fas fa-recycle"></i>
+                                تقنيات إدارة المياه
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -994,17 +1550,23 @@
 
     <!-- Signup Page -->
     <div id="signup" class="page">
-        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');">
+        <section class="hero" style="background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)); color: white; padding: 4rem 0; text-align: center;">
             <div class="container">
-                <h2>انضم إلى مبادرتنا</h2>
-                <p>سجل معنا لتكون جزءاً من الحل وتتلقى آخر المستجدات حول مكافحة التلوث البلاستيكي</p>
+                <div class="logo-placeholder">
+                    <img src="1.png" alt="Logo" class="logo-img-large">
+                    <h2 style="margin: 0; color: white;">انضم إلى مبادرتنا</h2>
+                </div>
+                <p style="color: white;">سجل معنا لتكون جزءاً من الحل وتتلقى آخر المستجدات حول ترشيد المياه والأسمدة</p>
             </div>
         </section>
 
         <section>
             <div class="container">
                 <div class="form-container">
-                    <h2 style="text-align: center; margin-bottom: 1.5rem;">إنشاء حساب جديد</h2>
+                    <div class="logo-placeholder">
+                        <img src="1.png" alt="Logo" class="logo-img-medium">
+                        <h2 style="margin: 0;">إنشاء حساب جديد</h2>
+                    </div>
                     <form id="signup-form">
                         <div class="form-group">
                             <label for="name">الاسم الكامل</label>
@@ -1023,16 +1585,14 @@
                             <input type="password" id="confirm-password" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="country">البلد</label>
-                            <select id="country" class="form-control" required>
-                                <option value="">اختر بلدك</option>
-                                <option value="sa">المملكة العربية السعودية</option>
-                                <option value="ae">الإمارات العربية المتحدة</option>
-                                <option value="eg">مصر</option>
-                                <option value="ma">المغرب</option>
-                                <option value="jo">الأردن</option>
-                                <option value="lb">لبنان</option>
-                                <option value="other">دولة أخرى</option>
+                            <label for="interest">مجال الاهتمام</label>
+                            <select id="interest" class="form-control" required>
+                                <option value="">اختر مجال اهتمامك</option>
+                                <option value="water">ترشيد المياه</option>
+                                <option value="fertilizer">الاستخدام الأمثل للأسمدة</option>
+                                <option value="agriculture">الزراعة المستدامة</option>
+                                <option value="education">التوعية والتعليم</option>
+                                <option value="technology">التقنيات الحديثة</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1053,17 +1613,23 @@
 
     <!-- Login Page -->
     <div id="login" class="page">
-        <section class="hero" style="background: linear-gradient(rgba(38, 70, 83, 0.8), rgba(42, 157, 143, 0.8)), url('https://images.unsplash.com/photo-1618477388957-7a89af6e8e0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+        <section class="hero" style="background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)); color: white; padding: 4rem 0; text-align: center;">
             <div class="container">
-                <h2>تسجيل الدخول</h2>
-                <p>ادخل إلى حسابك للمشاركة في المناقشات وتتبع تقدمك</p>
+                <div class="logo-placeholder">
+                    <img src="1.png" alt="Logo" class="logo-img-large">
+                    <h2 style="margin: 0; color: white;">تسجيل الدخول</h2>
+                </div>
+                <p style="color: white;">ادخل إلى حسابك للمشاركة في المناقشات وتتبع تقدمك</p>
             </div>
         </section>
 
         <section>
             <div class="container">
                 <div class="form-container">
-                    <h2 style="text-align: center; margin-bottom: 1.5rem;">تسجيل الدخول</h2>
+                    <div class="logo-placeholder">
+                        <img src="1.png" alt="Logo" class="logo-img-medium">
+                        <h2 style="margin: 0;">تسجيل الدخول</h2>
+                    </div>
                     <form id="login-form">
                         <div class="form-group">
                             <label for="login-email">البريد الإلكتروني</label>
@@ -1097,8 +1663,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>التلوث البلاستيكي</h3>
-                    <p>نعمل على زيادة الوعي بمخاطر التلوث البلاستيكي وتشجيع الحلول المستدامة لحماية كوكبنا.</p>
+                    <div class="logo-placeholder">
+                        <img src="1.png" alt="Logo" class="logo-img-medium">
+                        <h3 style="margin: 0; color: white;">حفظ المياه والأسمدة</h3>
+                    </div>
+                    <p>نعمل على زيادة الوعي بأهمية ترشيد استهلاك المياه والأسمدة وتشجيع الحلول المستدامة لحماية بيئتنا ومواردنا.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -1110,7 +1679,7 @@
                     <h3>روابط سريعة</h3>
                     <ul>
                         <li><a href="#" onclick="showPage('home')">الرئيسية</a></li>
-                        <li><a href="#" onclick="showPage('about')">عن التلوث</a></li>
+                        <li><a href="#" onclick="showPage('about')">عن الحفظ</a></li>
                         <li><a href="#" onclick="showPage('interactive')">التفاعل</a></li>
                         <li><a href="#" onclick="showPage('resources')">المصادر</a></li>
                     </ul>
@@ -1118,8 +1687,8 @@
                 <div class="footer-section">
                     <h3>مصادر مفيدة</h3>
                     <ul>
-                        <li><a href="#">تقارير التلوث</a></li>
-                        <li><a href="#">أبحاث علمية</a></li>
+                        <li><a href="#">تقارير المياه</a></li>
+                        <li><a href="#">أبحاث الأسمدة</a></li>
                         <li><a href="#">حملات التوعية</a></li>
                         <li><a href="#">فرص التطوع</a></li>
                     </ul>
@@ -1129,17 +1698,40 @@
                     <ul>
                         <li><i class="fas fa-map-marker-alt" style="margin-left: 8px;"></i> العنوان: القاهرة، مصر</li>
                         <li><i class="fas fa-phone" style="margin-left: 8px;"></i> الهاتف: +20 123 456 7890</li>
-                        <li><i class="fas fa-envelope" style="margin-left: 8px;"></i> البريد: info@plastic-pollution.org</li>
+                        <li><i class="fas fa-envelope" style="margin-left: 8px;"></i> البريد: info@water-conservation.org</li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 التلوث البلاستيكي. جميع الحقوق محفوظة.</p>
+                <p>&copy; 2023 حفظ المياه والأسمدة. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Splash Screen Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const splashScreen = document.getElementById('splash-screen');
+            const loadingProgress = document.getElementById('loading-progress');
+            
+            // Simulate loading progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Hide splash screen after a short delay
+                    setTimeout(() => {
+                        splashScreen.style.opacity = '0';
+                        splashScreen.style.visibility = 'hidden';
+                    }, 500);
+                }
+                loadingProgress.style.width = `${progress}%`;
+            }, 200);
+        });
+
         // Page Navigation
         function showPage(pageId) {
             // Hide all pages
@@ -1169,7 +1761,7 @@
         function getPageName(pageId) {
             const pageNames = {
                 'home': 'الرئيسية',
-                'about': 'عن التلوث',
+                'about': 'عن الحفظ',
                 'interactive': 'التفاعل',
                 'resources': 'المصادر',
                 'signup': 'إنشاء حساب',
@@ -1209,30 +1801,25 @@
             document.getElementById('calculator').style.display = 'block';
             document.getElementById('quiz').style.display = 'none';
             document.getElementById('impact').style.display = 'none';
+            document.getElementById('crop-game').style.display = 'none';
             document.getElementById('calculator-result').style.display = 'none';
         }
         
-        function calculateFootprint() {
-            const bottles = parseInt(document.getElementById('bottles').value) || 0;
-            const bags = parseInt(document.getElementById('bags').value) || 0;
-            const utensils = parseInt(document.getElementById('utensils').value) || 0;
+        function calculateConsumption() {
+            const land = parseFloat(document.getElementById('land').value) || 0;
+            const waterUsage = parseFloat(document.getElementById('waterUsage').value) || 0;
+            const fertilizerUsage = parseFloat(document.getElementById('fertilizerUsage').value) || 0;
             
-            const total = (bottles * 20) + (bags * 5) + (utensils * 2);
-            
-            let message = '';
-            if (total < 50) {
-                message = '<p style="color: green;">بصمتك البلاستيكية منخفضة! استمر في هذا المسار الرائع.</p>';
-            } else if (total < 100) {
-                message = '<p style="color: orange;">بصمتك البلاستيكية متوسطة. يمكنك تقليلها باستخدام بدائل قابلة لإعادة الاستخدام.</p>';
-            } else {
-                message = '<p style="color: red;">بصمتك البلاستيكية عالية. جرب استخدام زجاجة ماء قابلة لإعادة الاستخدام وأكياس قماشية.</p>';
-            }
+            const waterSavings = waterUsage * 0.3; // 30% potential savings
+            const fertilizerSavings = fertilizerUsage * 0.4; // 40% potential savings
+            const costSavings = (waterSavings * 0.5) + (fertilizerSavings * 2); // Estimated costs
             
             document.getElementById('calculator-result').innerHTML = `
                 <h4>نتيجة حسابك:</h4>
-                <p>بصمتك البلاستيكية الأسبوعية: ${total} غرام</p>
-                ${message}
-                <p>نصيحة: حاول تقليل استخدام البلاستيك ذي الاستخدام الواحد واستبدله ببدائل صديقة للبيئة.</p>
+                <p><strong>التوفير المحتمل في المياه:</strong> ${waterSavings.toFixed(1)} م³ أسبوعياً</p>
+                <p><strong>التوفير المحتمل في الأسمدة:</strong> ${fertilizerSavings.toFixed(1)} كجم شهرياً</p>
+                <p><strong>التوفير المالي الشهري:</strong> ${costSavings.toFixed(0)} دولار</p>
+                <p style="color: var(--accent); margin-top: 1rem;">يمكنك تحقيق هذا التوفير باستخدام تقنيات الري الذكي والاستخدام الأمثل للأسمدة!</p>
             `;
             document.getElementById('calculator-result').style.display = 'block';
         }
@@ -1241,6 +1828,7 @@
             document.getElementById('calculator').style.display = 'none';
             document.getElementById('quiz').style.display = 'block';
             document.getElementById('impact').style.display = 'none';
+            document.getElementById('crop-game').style.display = 'none';
             document.getElementById('quiz-result').style.display = 'none';
             
             // Reset quiz
@@ -1251,205 +1839,169 @@
         
         function selectOption(element) {
             // Remove selection from all options in this question
-            element.parentElement.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected');
+            const parent = element.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
             });
             
-            // Select clicked option
+            // Select the clicked option
             element.classList.add('selected');
         }
-        
-        let currentQuestion = 1;
-        const totalQuestions = 3;
-        const correctAnswers = [2, 0, 1]; // Index of correct answers (0-based)
-        let userAnswers = [];
         
         function nextQuestion() {
             const selectedOption = document.querySelector('.quiz-option.selected');
             if (!selectedOption) {
-                alert('يرجى اختيار إجابة!');
+                alert('يرجى اختيار إجابة أولاً!');
                 return;
             }
             
-            const optionIndex = Array.from(selectedOption.parentElement.children).indexOf(selectedOption);
-            userAnswers.push(optionIndex);
-            
-            if (currentQuestion < totalQuestions) {
-                currentQuestion++;
-                document.getElementById('q1').innerHTML = getQuestionHTML(currentQuestion);
-            } else {
-                showQuizResult();
-            }
-        }
-        
-        function getQuestionHTML(questionNum) {
-            const questions = [
-                {
-                    question: "كم من الوقت يستغرق تحلل كيس بلاستيكي في البيئة؟",
-                    options: ["أقل من سنة", "من 10 إلى 20 سنة", "من 100 إلى 500 سنة", "أكثر من 1000 سنة"]
-                },
-                {
-                    question: "ما هي النسبة التقريبية للبلاستيك الذي يتم إعادة تدويره عالمياً؟",
-                    options: ["9%", "25%", "50%", "75%"]
-                },
-                {
-                    question: "أي من هذه المواد يتحلل أسرع في البيئة؟",
-                    options: ["الزجاج", "الورق", "البلاستيك", "الألومنيوم"]
-                }
-            ];
-            
-            if (questionNum > questions.length) return '';
-            
-            const q = questions[questionNum - 1];
-            let html = `<p>${q.question}</p><div class="quiz-options">`;
-            
-            q.options.forEach((option, index) => {
-                html += `<div class="quiz-option" onclick="selectOption(this)">${option}</div>`;
-            });
-            
-            html += '</div>';
-            return html;
-        }
-        
-        function showQuizResult() {
-            let score = 0;
-            for (let i = 0; i < totalQuestions; i++) {
-                if (userAnswers[i] === correctAnswers[i]) {
-                    score++;
-                }
-            }
-            
-            const percentage = (score / totalQuestions) * 100;
-            let message = '';
-            
-            if (percentage >= 80) {
-                message = '<p style="color: green;">ممتاز! لديك معرفة جيدة عن التلوث البلاستيكي.</p>';
-            } else if (percentage >= 60) {
-                message = '<p style="color: orange;">جيد، لكن يمكنك تحسين معرفتك أكثر.</p>';
-            } else {
-                message = '<p style="color: red;">تحتاج إلى معرفة المزيد عن التلوث البلاستيكي.</p>';
-            }
-            
             document.getElementById('quiz-result').innerHTML = `
-                <h4>نتيجة الاختبار:</h4>
-                <p>${score} من ${totalQuestions} أسئلة صحيحة (${percentage}%)</p>
-                ${message}
-                <button class="btn btn-secondary" onclick="startQuiz()">حاول مرة أخرى</button>
+                <h4>إجابة صحيحة!</h4>
+                <p>الري بالتنقيط هو أفضل طريقة لترشيد استهلاك المياه في الزراعة لأنه يوفر المياه بنسبة تصل إلى 50% مقارنة بالطرق التقليدية.</p>
             `;
             document.getElementById('quiz-result').style.display = 'block';
-            
-            // Reset for next attempt
-            currentQuestion = 1;
-            userAnswers = [];
         }
         
         function showImpact() {
             document.getElementById('calculator').style.display = 'none';
             document.getElementById('quiz').style.display = 'none';
             document.getElementById('impact').style.display = 'block';
+            document.getElementById('crop-game').style.display = 'none';
             
             resetSimulation();
         }
         
-        let plasticAmount = 0;
+        let currentSavings = 0;
         let years = 0;
         
         function simulateYears(numYears) {
             years += numYears;
-            plasticAmount += numYears * 8; // 8 million tons per year
+            currentSavings += 500 * numYears; // $500 savings per year
             
-            const plasticHeight = Math.min(70, (plasticAmount / 100) * 70); // Max 70% of ocean visualization
-            document.getElementById('plastic-visualization').style.height = `${plasticHeight}%`;
-            document.getElementById('plastic-visualization').style.background = 'linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))';
+            const savingsHeight = Math.min(100, (years / 20) * 100);
+            document.getElementById('savings-visualization').style.height = `${savingsHeight}%`;
             
             document.getElementById('impact-stats').innerHTML = `
-                <h4>إحصائيات التلوث بعد ${years} سنة:</h4>
-                <p>إجمالي البلاستيك في المحيطات: ${plasticAmount} مليون طن</p>
-                <p>عدد الحيوانات البحرية المتضررة: ${Math.round(plasticAmount * 12500)} حيوان</p>
-                <p>التكلفة الاقتصادية: ${Math.round(plasticAmount * 13)} مليار دولار</p>
+                <h4>نتيجة المحاكاة:</h4>
+                <p><strong>عدد السنوات:</strong> ${years} سنة</p>
+                <p><strong>إجمالي التوفير:</strong> $${currentSavings}</p>
+                <p><strong>المياه الموفرّة:</strong> ${years * 10000} لتر</p>
+                <p><strong>الأسمدة الموفرّة:</strong> ${years * 200} كجم</p>
             `;
         }
         
         function resetSimulation() {
-            plasticAmount = 0;
             years = 0;
-            document.getElementById('plastic-visualization').style.height = '0%';
+            currentSavings = 0;
+            document.getElementById('savings-visualization').style.height = '0%';
             document.getElementById('impact-stats').innerHTML = `
-                <h4>إحصائيات التلوث:</h4>
-                <p>إجمالي البلاستيك في المحيطات: 0 مليون طن</p>
-                <p>عدد الحيوانات البحرية المتضررة: 0 حيوان</p>
-                <p>التكلفة الاقتصادية: 0 مليار دولار</p>
+                <p>انقر على الأزرار لبدء المحاكاة ورؤية تأثير الترشيد بمرور الوقت.</p>
             `;
         }
         
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add animation to cards when they come into view
-            const cards = document.querySelectorAll('.card');
+        // Crop Selection Game
+        let selectedClimate = '';
+        let selectedCrop = '';
+        let gameScore = 0;
+        let gameLevel = 1;
+        let gameLives = 3;
+        
+        function startCropGame() {
+            document.getElementById('calculator').style.display = 'none';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('impact').style.display = 'none';
+            document.getElementById('crop-game').style.display = 'block';
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            cards.forEach(card => {
-                card.style.opacity = 0;
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(card);
+            // Reset game state
+            selectedClimate = '';
+            selectedCrop = '';
+            document.querySelectorAll('.climate-card').forEach(card => {
+                card.classList.remove('selected');
             });
-            
-            // Button click effects
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    // Create ripple effect
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.classList.add('ripple');
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
+            document.querySelectorAll('.crop-card').forEach(card => {
+                card.classList.remove('selected');
             });
+            document.getElementById('crops-section').style.display = 'none';
+            document.getElementById('game-result').style.display = 'none';
             
-            // Add ripple effect styles
-            const style = document.createElement('style');
-            style.textContent = `
-                .btn {
-                    position: relative;
-                    overflow: hidden;
-                }
-                .ripple {
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.7);
-                    transform: scale(0);
-                    animation: ripple-animation 0.6s linear;
-                }
-                @keyframes ripple-animation {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        });
+            updateGameStats();
+        }
+        
+        function selectClimate(climate) {
+            selectedClimate = climate;
+            document.querySelectorAll('.climate-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            document.getElementById('crops-section').style.display = 'block';
+        }
+        
+        function selectCrop(crop) {
+            selectedCrop = crop;
+            document.querySelectorAll('.crop-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+        
+        function checkCropSelection() {
+            if (!selectedClimate || !selectedCrop) {
+                alert('يرجى اختيار المناخ والمحصول أولاً!');
+                return;
+            }
+            
+            const correctPairs = {
+                'desert': ['date', 'olive'],
+                'mediterranean': ['olive', 'grape'],
+                'tropical': ['banana', 'coffee'],
+                'temperate': ['tomato', 'wheat']
+            };
+            
+            const isCorrect = correctPairs[selectedClimate].includes(selectedCrop);
+            
+            if (isCorrect) {
+                gameScore += 10 * gameLevel;
+                document.getElementById('game-result').className = 'game-result result-success';
+                document.getElementById('result-title').textContent = 'إجابة صحيحة!';
+                document.getElementById('result-message').textContent = 'لقد اخترت المحصول المناسب للمناخ.';
+            } else {
+                gameLives--;
+                document.getElementById('game-result').className = 'game-result result-error';
+                document.getElementById('result-title').textContent = 'إجابة خاطئة!';
+                document.getElementById('result-message').textContent = 'هذا المحصول غير مناسب للمناخ المختار.';
+            }
+            
+            document.getElementById('game-result').style.display = 'block';
+            updateGameStats();
+            
+            if (gameLives <= 0) {
+                setTimeout(() => {
+                    alert('انتهت المحاولات! لقد خسرت اللعبة. النقاط النهائية: ' + gameScore);
+                    startCropGame();
+                }, 1500);
+            }
+        }
+        
+        function nextLevel() {
+            gameLevel++;
+            document.getElementById('game-result').style.display = 'none';
+            selectedClimate = '';
+            selectedCrop = '';
+            document.querySelectorAll('.climate-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelectorAll('.crop-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('crops-section').style.display = 'none';
+            updateGameStats();
+        }
+        
+        function updateGameStats() {
+            document.getElementById('score').textContent = gameScore;
+            document.getElementById('level').textContent = gameLevel;
+            document.getElementById('lives').textContent = gameLives;
+        }
     </script>
 </body>
 </html>
