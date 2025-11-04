@@ -855,6 +855,194 @@
             color: var(--danger);
         }
 
+        /* Irrigation Game Styles */
+        .irrigation-game-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .game-area {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 3px solid #2c3e50;
+        }
+
+        /* Farm Elements */
+        .farm-field {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to bottom, #8B4513, #A0522D);
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding: 0 20px;
+        }
+
+        .crop {
+            width: 80px;
+            height: 0;
+            background: linear-gradient(to top, #27ae60, #2ecc71);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .crop::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            width: 60px;
+            height: 20px;
+            background: #2ecc71;
+            border-radius: 50%;
+        }
+
+        /* Irrigation System */
+        .irrigation-system {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .water-pipe {
+            width: 80%;
+            height: 20px;
+            background: #7f8c8d;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .sprinkler {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 50%;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: grab;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .sprinkler:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .sprinkler:active {
+            cursor: grabbing;
+        }
+
+        .water-stream {
+            position: absolute;
+            width: 5px;
+            height: 0;
+            background: linear-gradient(to bottom, transparent, #3498db);
+            left: 50%;
+            transform: translateX(-50%);
+            transition: height 0.3s ease;
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* Water Drops */
+        .water-drop {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #3498db;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: fall 1.5s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(300px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Controls */
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .control-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Game Messages */
+        .game-message {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message-success {
+            background: rgba(39, 174, 96, 0.1);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .message-warning {
+            background: rgba(243, 156, 18, 0.1);
+            border: 2px solid #f39c12;
+            color: #f39c12;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
@@ -896,6 +1084,14 @@
 
             .crops-selection {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .game-controls {
+                flex-wrap: wrap;
+            }
+            
+            .crop {
+                width: 50px;
             }
         }
     </style>
@@ -1105,10 +1301,79 @@
                     <div class="card">
                         <div class="card-content">
                             <p>تشمل التقنيات الحديثة أنظمة الري بالتنقيط، والري الذكي باستخدام أجهزة الاستشعار، والري حسب احتياجات النبات. هذه التقنيات تساعد في توفير المياه وتقليل الهدر بشكل كبير.</p>
-                            <div style="text-align: center; margin-top: 2rem;">
-                                <div class="card-img">
-                                    <i class="fas fa-water" style="font-size: 4rem;"></i>
+                            
+                            <!-- Irrigation Game Added Here -->
+                            <div class="irrigation-game-container">
+                                <div class="game-header">
+                                    <h3>💧 لعبة الري الذكي - جرب أدواتنا التفاعلية</h3>
+                                    <p>استخدم الماوس للتحكم في نظام الري وروي المحاصيل بشكل صحيح</p>
                                 </div>
+                                
+                                <div class="game-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="water-level">100%</div>
+                                        <div>مستوى المياه</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="crops-health">0%</div>
+                                        <div>صحة المحاصيل</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="score">0</div>
+                                        <div>النقاط</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="time">60</div>
+                                        <div>الوقت (ثانية)</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="game-area" id="game-area">
+                                    <div class="irrigation-system">
+                                        <div class="water-pipe">
+                                            <div class="sprinkler" id="sprinkler">
+                                                <i class="fas fa-water"></i>
+                                            </div>
+                                            <div class="water-stream" id="water-stream"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="farm-field">
+                                        <div class="crop" id="crop1" data-health="0"></div>
+                                        <div class="crop" id="crop2" data-health="0"></div>
+                                        <div class="crop" id="crop3" data-health="0"></div>
+                                        <div class="crop" id="crop4" data-health="0"></div>
+                                        <div class="crop" id="crop5" data-health="0"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="game-controls">
+                                    <button class="control-btn" id="start-btn" onclick="startGame()">
+                                        <i class="fas fa-play"></i> بدء اللعبة
+                                    </button>
+                                    <button class="control-btn" id="water-btn" onclick="toggleWater()" disabled>
+                                        <i class="fas fa-tint"></i> تشغيل/إيقاف المياه
+                                    </button>
+                                    <button class="control-btn" id="reset-btn" onclick="resetGame()">
+                                        <i class="fas fa-redo"></i> إعادة التعيين
+                                    </button>
+                                </div>
+                                
+                                <div class="game-message" id="game-message">
+                                    <!-- الرسائل تظهر هنا -->
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2rem;">
+                                <h4>تعليمات اللعبة:</h4>
+                                <p>الهدف من هذه اللعبة هو ري المحاصيل باستخدام نظام الري الذكي مع ترشيد استهلاك المياه.</p>
+                                <ul>
+                                    <li>اسحب الرشاش (الزر الأزرق) لتحريكه فوق المحاصيل</li>
+                                    <li>انقر على زر "تشغيل/إيقاف المياه" لبدء الري</li>
+                                    <li>حاول ري جميع المحاصيل مع الحفاظ على المياه</li>
+                                    <li>المحاصيل تحتاج إلى الماء لتنمو، لكن الإفراط في الري يهدر المياه</li>
+                                    <li>احصل على نقاط عن طريق ري المحاصيل بشكل صحيح</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -2002,6 +2267,303 @@
             document.getElementById('level').textContent = gameLevel;
             document.getElementById('lives').textContent = gameLives;
         }
+
+        // Irrigation Game Code
+        // عناصر اللعبة
+        const gameArea = document.getElementById('game-area');
+        const sprinkler = document.getElementById('sprinkler');
+        const waterStream = document.getElementById('water-stream');
+        const crops = [
+            document.getElementById('crop1'),
+            document.getElementById('crop2'),
+            document.getElementById('crop3'),
+            document.getElementById('crop4'),
+            document.getElementById('crop5')
+        ];
+
+        // إحصائيات اللعبة
+        let gameStats = {
+            waterLevel: 100,
+            cropsHealth: 0,
+            score: 0,
+            timeLeft: 60,
+            gameActive: false,
+            watering: false,
+            gameInterval: null
+        };
+
+        // تحديث الإحصائيات على الشاشة
+        function updateStats() {
+            document.getElementById('water-level').textContent = `${gameStats.waterLevel}%`;
+            document.getElementById('crops-health').textContent = `${gameStats.cropsHealth}%`;
+            document.getElementById('score').textContent = gameStats.score;
+            document.getElementById('time').textContent = gameStats.timeLeft;
+        }
+
+        // بدء اللعبة
+        function startGame() {
+            if (gameStats.gameActive) return;
+            
+            gameStats.gameActive = true;
+            gameStats.waterLevel = 100;
+            gameStats.cropsHealth = 0;
+            gameStats.score = 0;
+            gameStats.timeLeft = 60;
+            
+            // إعادة تعيين المحاصيل
+            crops.forEach(crop => {
+                crop.style.height = '0px';
+                crop.setAttribute('data-health', '0');
+            });
+            
+            // تمكين زر المياه
+            document.getElementById('water-btn').disabled = false;
+            document.getElementById('start-btn').disabled = true;
+            
+            // بدء المؤقت
+            gameStats.gameInterval = setInterval(() => {
+                gameStats.timeLeft--;
+                updateStats();
+                
+                if (gameStats.timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+            
+            updateStats();
+            showMessage("ابدأ بري المحاصيل! اسحب الرشاش وافتح المياه", "message-warning");
+        }
+
+        // إنهاء اللعبة
+        function endGame() {
+            gameStats.gameActive = false;
+            clearInterval(gameStats.gameInterval);
+            document.getElementById('water-btn').disabled = true;
+            document.getElementById('start-btn').disabled = false;
+            
+            // إيقاف المياه إذا كانت تعمل
+            if (gameStats.watering) {
+                toggleWater();
+            }
+            
+            // تقييم الأداء
+            let message = "";
+            if (gameStats.cropsHealth >= 80) {
+                message = `ممتاز! لقد حصلت على ${gameStats.score} نقطة. استخدمت ${100 - gameStats.waterLevel}% من المياه.`;
+            } else if (gameStats.cropsHealth >= 50) {
+                message = `جيد! لقد حصلت على ${gameStats.score} نقطة. حاول ري المحاصيل بشكل متساوٍ في المرة القادمة.`;
+            } else {
+                message = `تحتاج إلى تحسين! المحاصيل لم تحصل على كمية كافية من المياه.`;
+            }
+            
+            showMessage(message, "message-success");
+        }
+
+        // تبديل حالة المياه
+        function toggleWater() {
+            if (!gameStats.gameActive) return;
+            
+            gameStats.watering = !gameStats.watering;
+            
+            if (gameStats.watering) {
+                waterStream.style.height = '200px';
+                startWatering();
+            } else {
+                waterStream.style.height = '0px';
+                stopWatering();
+            }
+        }
+
+        // بدء الري
+        function startWatering() {
+            if (!gameStats.watering) return;
+            
+            // تقليل مستوى المياه
+            if (gameStats.waterLevel > 0) {
+                gameStats.waterLevel -= 0.5;
+                
+                // إنشاء قطرات ماء
+                createWaterDrops();
+                
+                // ري المحاصيل تحت الرشاش
+                waterCrops();
+                
+                // الاستمرار في الري
+                setTimeout(startWatering, 200);
+            } else {
+                // نفاد المياه
+                toggleWater();
+                showMessage("لقد نفدت المياه! اضغط على إعادة التعيين للبدء من جديد", "message-warning");
+            }
+        }
+
+        // إيقاف الري
+        function stopWatering() {
+            waterStream.style.height = '0px';
+        }
+
+        // إنشاء قطرات ماء
+        function createWaterDrops() {
+            if (!gameStats.watering) return;
+            
+            const sprinklerRect = sprinkler.getBoundingClientRect();
+            const gameAreaRect = gameArea.getBoundingClientRect();
+            
+            const sprinklerX = sprinklerRect.left - gameAreaRect.left + sprinklerRect.width / 2;
+            const sprinklerY = sprinklerRect.top - gameAreaRect.top + sprinklerRect.height;
+            
+            // إنشاء 3 قطرات في مواقع عشوائية قريبة من الرشاش
+            for (let i = 0; i < 3; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'water-drop';
+                
+                const randomX = sprinklerX - 20 + Math.random() * 40;
+                drop.style.left = `${randomX}px`;
+                drop.style.top = `${sprinklerY}px`;
+                
+                gameArea.appendChild(drop);
+                
+                // إزالة القطرة بعد انتهاء الرسوم المتحركة
+                setTimeout(() => {
+                    if (gameArea.contains(drop)) {
+                        gameArea.removeChild(drop);
+                    }
+                }, 1500);
+            }
+        }
+
+        // ري المحاصيل
+        function waterCrops() {
+            const sprinklerRect = sprinkler.getBoundingClientRect();
+            const gameAreaRect = gameArea.getBoundingClientRect();
+            
+            const sprinklerX = sprinklerRect.left - gameAreaRect.left + sprinklerRect.width / 2;
+            
+            crops.forEach((crop, index) => {
+                const cropRect = crop.getBoundingClientRect();
+                const cropX = cropRect.left - gameAreaRect.left + cropRect.width / 2;
+                
+                // إذا كان المحصول تحت الرشاش
+                if (Math.abs(sprinklerX - cropX) < 50) {
+                    let health = parseInt(crop.getAttribute('data-health'));
+                    
+                    // زيادة صحة المحصول (بحد أقصى 100)
+                    if (health < 100) {
+                        health += 2;
+                        crop.setAttribute('data-health', health);
+                        
+                        // زيادة ارتفاع المحصول بناءً على صحته
+                        crop.style.height = `${health / 2}px`;
+                        
+                        // إضافة نقاط
+                        if (health % 20 === 0) {
+                            gameStats.score += 10;
+                        }
+                    }
+                }
+            });
+            
+            // حساب متوسط صحة المحاصيل
+            let totalHealth = 0;
+            crops.forEach(crop => {
+                totalHealth += parseInt(crop.getAttribute('data-health'));
+            });
+            gameStats.cropsHealth = Math.round(totalHealth / crops.length);
+            
+            updateStats();
+        }
+
+        // عرض رسالة
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('game-message');
+            messageEl.textContent = text;
+            messageEl.className = `game-message ${type}`;
+            messageEl.style.display = 'block';
+            
+            // إخفاء الرسالة بعد 5 ثواني
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // إعادة تعيين اللعبة
+        function resetGame() {
+            if (gameStats.gameActive) {
+                clearInterval(gameStats.gameInterval);
+            }
+            
+            gameStats = {
+                waterLevel: 100,
+                cropsHealth: 0,
+                score: 0,
+                timeLeft: 60,
+                gameActive: false,
+                watering: false,
+                gameInterval: null
+            };
+            
+            // إعادة تعيين المحاصيل
+            crops.forEach(crop => {
+                crop.style.height = '0px';
+                crop.setAttribute('data-health', '0');
+            });
+            
+            // إعادة تعيين الرشاش
+            sprinkler.style.left = '50%';
+            waterStream.style.height = '0px';
+            
+            // إعادة تعيين الأزرار
+            document.getElementById('water-btn').disabled = true;
+            document.getElementById('start-btn').disabled = false;
+            
+            updateStats();
+            document.getElementById('game-message').style.display = 'none';
+        }
+
+        // جعل الرشاش قابلاً للسحب
+        sprinkler.addEventListener('mousedown', startDrag);
+
+        function startDrag(e) {
+            e.preventDefault();
+            
+            const gameAreaRect = gameArea.getBoundingClientRect();
+            const sprinklerRect = sprinkler.getBoundingClientRect();
+            
+            const offsetX = e.clientX - sprinklerRect.left;
+            
+            function onMouseMove(e) {
+                let newX = e.clientX - offsetX - gameAreaRect.left;
+                
+                // التأكد من بقاء الرشاش داخل منطقة اللعبة
+                if (newX < 0) newX = 0;
+                if (newX > gameAreaRect.width - sprinklerRect.width) {
+                    newX = gameAreaRect.width - sprinklerRect.width;
+                }
+                
+                sprinkler.style.left = `${newX}px`;
+                
+                // تحريك تيار المياه مع الرشاش
+                waterStream.style.left = `${newX + sprinklerRect.width / 2}px`;
+            }
+            
+            function onMouseUp() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        }
+
+        // تهيئة اللعبة
+        window.addEventListener('load', () => {
+            updateStats();
+            
+            // وضع الرشاش في المنتصف
+            const gameAreaRect = gameArea.getBoundingClientRect();
+            const sprinklerRect = sprinkler.getBoundingClientRect();
+            sprinkler.style.left = `${(gameAreaRect.width - sprinklerRect.width) / 2}px`;
+        });
     </script>
 </body>
 </html>
